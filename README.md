@@ -1,41 +1,46 @@
-# Code in Solidity like a PRO with Egor Gavrilov
+# Advanced Sample Hardhat Project
 
-## Check out YouTube channel [youtube.com/EgorGavrilov](https://youtube.com/EgorGavrilov)
+This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
 
-### Tutorials
+The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
 
-1. [Perfect Solidity Stack](https://youtu.be/NohOI4HWYCs)
+Try running some of the following tasks:
 
-It's easy to get started with Solidity programming, but how do you approach it professionally? We figure it out in this video. 
+```shell
+npx hardhat accounts
+npx hardhat compile
+npx hardhat clean
+npx hardhat test
+npx hardhat node
+npx hardhat help
+REPORT_GAS=true npx hardhat test
+npx hardhat coverage
+npx hardhat run scripts/deploy.ts
+TS_NODE_FILES=true npx ts-node scripts/deploy.ts
+npx eslint '**/*.{js,ts}'
+npx eslint '**/*.{js,ts}' --fix
+npx prettier '**/*.{json,sol,md}' --check
+npx prettier '**/*.{json,sol,md}' --write
+npx solhint 'contracts/**/*.sol'
+npx solhint 'contracts/**/*.sol' --fix
+```
 
-![PerfectSolidityStack](thumbnails/perfect-solidity-stack.png)
+# Etherscan verification
 
-2. [Predict Contract Address](https://youtu.be/A27p0qfpcAc)
+To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
 
-Deploy your Smart Contract with a precomputed address. We will write a Solidity Smart Contract with two options: using Create and Create2.
+In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
 
-![SolidityCreate2](thumbnails/solidity-create2.png)
+```shell
+hardhat run --network ropsten scripts/deploy.ts
+```
 
-3. [Rentable NFT](https://youtu.be/DG2lNEMI1TQ)
+Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
 
-Rentable NFTs are the next big trend. Rent out an expensive NFT for one day and take advantage of all the benefits for a small fee.
+```shell
+npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
+```
 
-![RentableNFT](thumbnails/rentable-nft.png)
+# Performance optimizations
 
-4. [Merkle Tree Airdrop](https://youtu.be/XhzkwB71IJE)
-
-Use Merkle tree to airdrop your token in a cheap, elegant and efficient way. 
-
-![MerkleTreeAirdrop](thumbnails/merkle-tree-airdrop.png)
-
-5. [Digital Signatures](https://youtu.be/w9St9aU9UqQ)
-
-Elliptic Curve Digital Signature Algorithm is a popular method of digital identification.
-
-![Digital Signatures](thumbnails/ecdsa.png)
-
-6. [Upgradeable Smart Contracts](https://youtu.be/3XXw-cIWgV4)
-
-Upgrade your Smart Contracts using Transparent Upgradeable Proxy.
-
-![Upgradeable Smart Contracts](thumbnails/proxy.png)
+For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
